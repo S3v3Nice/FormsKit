@@ -1,0 +1,5 @@
+name: FormsKit
+main: ru.s3v3nice.formskit.FormsKit
+version: "1.0"
+api: ["1.0.0"]
+author: S3v3Nice
