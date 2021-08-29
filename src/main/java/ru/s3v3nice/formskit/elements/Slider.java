@@ -2,7 +2,7 @@ package ru.s3v3nice.formskit.elements;
 
 import com.google.gson.JsonObject;
 
-public final class Slider extends Element {
+public final class Slider extends CustomElement implements ValueElement {
     private final float min;
     private final float max;
     private final float step;
@@ -17,7 +17,7 @@ public final class Slider extends Element {
     }
 
     public Slider(String text, float min, float max, float step, float defaultValue) {
-        super(Element.SLIDER, text);
+        super(SLIDER, text);
 
         this.min = min;
         this.max = max;

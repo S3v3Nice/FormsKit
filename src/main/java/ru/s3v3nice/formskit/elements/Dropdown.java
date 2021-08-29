@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
-public final class Dropdown extends Element {
+public final class Dropdown extends CustomElement implements ValueElement {
     private final List<String> options;
     private int value;
 
@@ -14,7 +14,7 @@ public final class Dropdown extends Element {
     }
 
     public Dropdown(String text, List<String> options, int defaultValue) {
-        super(Element.DROPDOWN, text);
+        super(DROPDOWN, text);
 
         this.options = options;
         this.value = defaultValue;

@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
-public final class StepSlider extends Element {
+public final class StepSlider extends CustomElement implements ValueElement {
     private final List<String> steps;
     private int value;
 

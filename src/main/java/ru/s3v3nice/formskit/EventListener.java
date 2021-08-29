@@ -9,8 +9,9 @@ import cn.nukkit.event.player.PlayerQuitEvent;
 import cn.nukkit.event.server.DataPacketReceiveEvent;
 import cn.nukkit.network.protocol.ModalFormResponsePacket;
 import com.google.gson.*;
-import ru.s3v3nice.formskit.elements.Element;
+import ru.s3v3nice.formskit.elements.CustomElement;
 import ru.s3v3nice.formskit.elements.Label;
+import ru.s3v3nice.formskit.elements.ValueElement;
 import ru.s3v3nice.formskit.events.FormCloseEvent;
 import ru.s3v3nice.formskit.events.FormResponseEvent;
 import ru.s3v3nice.formskit.forms.CustomForm;
@@ -33,40 +34,42 @@ public final class EventListener implements Listener {
         JsonElement data = JsonParser.parseString(packet.data);
 
         Event e = data instanceof JsonNull ? new FormCloseEvent(form, player) :
-                                             new FormResponseEvent(form, player, data);
+                new FormResponseEvent(form, player, data);
         Server.getInstance().getPluginManager().callEvent(e);
     }
 
     @EventHandler
     public void onFormResponse(FormResponseEvent event) {
-        Form form = event.getForm();
-        Player player = event.getPlayer();
-        JsonElement data = event.getData();
+        try {
+            Form form = event.getForm();
+            Player player = event.getPlayer();
+            JsonElement data = event.getData();
 
-        switch (form.getType()) {
-            case Form.SIMPLE -> ((SimpleForm) form).setResponse(data.getAsInt());
+            switch (form.getType()) {
+                case Form.SIMPLE -> ((SimpleForm) form).setResponse(data.getAsInt());
+                case Form.CUSTOM -> {
+                    List<CustomElement> elements = ((CustomForm) form).getElements();
+                    JsonArray dataArray = data.getAsJsonArray();
 
-            case Form.CUSTOM -> {
-                List<Element> elements = ((CustomForm) form).getElements();
-                JsonArray dataArray = data.getAsJsonArray();
-
-                for (int i = 0; i < elements.size(); i++) {
-                    Element element = elements.get(i);
-                    if (element instanceof Label) continue;
-
-                    element.setValue(dataArray.get(i).getAsString());
+                    for (int i = 0; i < elements.size(); i++) {
+                        if (elements.get(i) instanceof ValueElement valueElement) {
+                            valueElement.setValue(dataArray.get(i).getAsString());
+                        }
+                    }
                 }
+                case Form.MODAL -> ((ModalForm) form).setResponse(data.getAsBoolean());
             }
 
-            case Form.MODAL -> ((ModalForm) form).setResponse(data.getAsBoolean());
+            form.setClosed();
+            form.onResponse();
+
+            if (form instanceof CustomForm) {
+                Server.getInstance().getPluginManager().callEvent(new FormCloseEvent(form, player));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        form.setClosed();
-        form.onResponse();
-
-        if (form instanceof CustomForm) {
-            Server.getInstance().getPluginManager().callEvent(new FormCloseEvent(form, player));
-        }
     }
 
     @EventHandler

@@ -27,9 +27,6 @@ public abstract class Element {
         this.text = text;
     }
 
-    public void setValue(String valueStr) {
-    }
-
     public JsonObject serialize() {
         JsonObject data = new JsonObject();
         data.addProperty("type", type);

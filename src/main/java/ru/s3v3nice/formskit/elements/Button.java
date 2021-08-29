@@ -11,7 +11,7 @@ public final class Button extends Element {
     }
 
     public Button(String text, String imgType, String img) {
-        super(Element.BUTTON, text);
+        super(BUTTON, text);
         this.imgType = imgType;
         this.img = img;
     }

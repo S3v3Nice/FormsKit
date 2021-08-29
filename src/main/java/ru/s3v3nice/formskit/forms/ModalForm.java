@@ -8,7 +8,7 @@ public abstract class ModalForm extends Form {
     private boolean response;
 
     public ModalForm(String title, String text, String button1Text, String button2Text) {
-        super(Form.MODAL, title, text);
+        super(MODAL, title, text);
 
         this.button1Text = button1Text;
         this.button2Text = button2Text;

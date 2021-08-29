@@ -2,7 +2,7 @@ package ru.s3v3nice.formskit.elements;
 
 import com.google.gson.JsonObject;
 
-public final class Input extends Element {
+public final class Input extends CustomElement implements ValueElement {
     private final String placeholder;
     private String value;
 
@@ -15,7 +15,7 @@ public final class Input extends Element {
     }
 
     public Input(String text, String placeholder, String defaultValue) {
-        super(Element.INPUT, text);
+        super(INPUT, text);
 
         this.placeholder = placeholder;
         this.value = defaultValue;

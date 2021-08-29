@@ -12,7 +12,7 @@ public abstract class SimpleForm extends Form {
     private int response;
 
     public SimpleForm(String title, String text) {
-        super(Form.SIMPLE, title, text);
+        super(SIMPLE, title, text);
     }
 
     public final void addButton(Button button) {

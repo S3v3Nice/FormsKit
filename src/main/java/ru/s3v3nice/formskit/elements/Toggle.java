@@ -2,7 +2,7 @@ package ru.s3v3nice.formskit.elements;
 
 import com.google.gson.JsonObject;
 
-public final class Toggle extends Element {
+public final class Toggle extends CustomElement implements ValueElement {
     private boolean value;
 
     public Toggle(String text) {
