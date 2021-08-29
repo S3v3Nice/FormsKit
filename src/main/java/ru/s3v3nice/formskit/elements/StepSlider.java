@@ -17,7 +17,7 @@ public final class StepSlider extends Element {
         super(Element.STEP_SLIDER, text);
 
         this.steps = steps;
-        this.value = Math.max(Math.min(defaultValue, steps.size()), 0);
+        this.value = Math.max(Math.min(defaultValue, steps.size() - 1), 0);
     }
 
     public int getValue() {
