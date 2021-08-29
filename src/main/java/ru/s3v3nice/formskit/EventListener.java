@@ -40,36 +40,31 @@ public final class EventListener implements Listener {
 
     @EventHandler
     public void onFormResponse(FormResponseEvent event) {
-        try {
-            Form form = event.getForm();
-            Player player = event.getPlayer();
-            JsonElement data = event.getData();
+        Form form = event.getForm();
+        Player player = event.getPlayer();
+        JsonElement data = event.getData();
 
-            switch (form.getType()) {
-                case Form.SIMPLE -> ((SimpleForm) form).setResponse(data.getAsInt());
-                case Form.CUSTOM -> {
-                    List<CustomElement> elements = ((CustomForm) form).getElements();
-                    JsonArray dataArray = data.getAsJsonArray();
+        switch (form.getType()) {
+            case Form.SIMPLE -> ((SimpleForm) form).setResponse(data.getAsInt());
+            case Form.CUSTOM -> {
+                List<CustomElement> elements = ((CustomForm) form).getElements();
+                JsonArray dataArray = data.getAsJsonArray();
 
-                    for (int i = 0; i < elements.size(); i++) {
-                        if (elements.get(i) instanceof ValueElement valueElement) {
-                            valueElement.setValue(dataArray.get(i).getAsString());
-                        }
+                for (int i = 0; i < elements.size(); i++) {
+                    if (elements.get(i) instanceof ValueElement valueElement) {
+                        valueElement.setValue(dataArray.get(i).getAsString());
                     }
                 }
-                case Form.MODAL -> ((ModalForm) form).setResponse(data.getAsBoolean());
             }
-
-            form.setClosed();
-            form.onResponse();
-
-            if (form instanceof CustomForm) {
-                Server.getInstance().getPluginManager().callEvent(new FormCloseEvent(form, player));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            case Form.MODAL -> ((ModalForm) form).setResponse(data.getAsBoolean());
         }
 
+        form.setClosed();
+        form.onResponse();
+
+        if (form instanceof CustomForm) {
+            Server.getInstance().getPluginManager().callEvent(new FormCloseEvent(form, player));
+        }
     }
 
     @EventHandler
